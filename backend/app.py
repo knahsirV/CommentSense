@@ -1,4 +1,5 @@
 from flask import Flask
+import comments
 
 app = Flask(__name__)
 
