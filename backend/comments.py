@@ -3,6 +3,8 @@ from googleapiclient.errors import HttpError
 import json
 import os
 from dotenv import load_dotenv
+from transformers import pipeline
+
 
 load_dotenv()
 
@@ -48,11 +50,19 @@ def get_video_comments(video_id):
                 )
             else:
                 break
-
         return comments
 
     except HttpError as e:
         print(f"An HTTP error {e.resp.status} occurred: {e.content}")
+
+
+def analyze_comments(comments):
+    classifier = pipeline(
+        "text-classification",
+        model="bhadresh-savani/distilbert-base-uncased-emotion",
+        return_all_scores=True,
+    )
+    return classifier(comments)
 
 
 if __name__ == "__main__":
@@ -61,8 +71,4 @@ if __name__ == "__main__":
 
     comments = get_video_comments(video_id)
 
-    # Save comments to a file
-    with open("comments.json", "w", encoding="utf-8") as file:
-        json.dump(comments, file, ensure_ascii=False)
-
-    print("Comments scraped successfully and saved to comments.json.")
+    print(analyze_comments(comments["comment"]))
