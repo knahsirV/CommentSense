@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import json
@@ -140,35 +140,31 @@ def get_video_comments(video_id):
 
 
 def analyze_comments(comments):
+
     classifier = pipeline(
         "text-classification",
-        model="cardiffnlp/twitter-roberta-base-sentiment",
+        model="j-hartmann/emotion-english-distilroberta-base",
         top_k=None,
     )
-    sentiment_match = {
-    "LABEL_0": "Negative",
-    "LABEL_1": "Neutral",
-    "LABEL_2": "Positive",
-    }
+
     sentiments = classifier(comments)
-    print('sentiments generated')
+
     df_data = [
         {
             **{"comment": comment},
-            **{sentiment_match[item['label']]: item["score"] for item in sentiment},
+            **{item['label']: item["score"] for item in sentiment},
         }
         for comment, sentiment in zip(comments, sentiments)
     ]
     df = pd.DataFrame(df_data)
-    average_sentiments = {
-        "Negative": df["Negative"].mean(),
-        "Neutral": df["Neutral"].mean(),
-        "Positive": df["Positive"].mean(),
-    }
-    comment_sentiments = []
 
+    average_sentiments = {}
+    for item in sentiments[0]:
+        average_sentiments[item['label']] = df[item['label']].mean()
+
+    comment_sentiments = []
     for comment, sentiment in zip(comments, sentiments):
-        sentiment_scores = {sentiment_match[label['label']]: label["score"] for label in sentiment}
+        sentiment_scores = {label['label']: label["score"] for label in sentiment}
         comment_dict = {"comment": comment, "sentiment_scores": sentiment_scores}
         comment_sentiments.append(comment_dict)
 
