@@ -125,7 +125,6 @@ tensorboard==2.13.0
 tensorboard-data-server==0.7.0
 tensorflow==2.13.0rc0
 tensorflow-estimator==2.13.0rc0
-tensorflow
 termcolor==2.3.0
 tokenizers==0.13.3
 tomlkit==0.11.8
