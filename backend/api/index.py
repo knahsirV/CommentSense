@@ -20,7 +20,7 @@ def sentiments(video_id):
         year_now = int(datetime.now().year)
         if year_now - year_analyzed == 0:
             return sentiments.data[0]["sentiments"]
-    # comments = comment_tools.get_video_comments(video_id)
+    comments = comment_tools.get_video_comments(video_id)
     # sentiments = comment_tools.analyze_comments(comments)
     # comment_tools.add_to_analyzed(video_id, sentiments)
     # return sentiments
