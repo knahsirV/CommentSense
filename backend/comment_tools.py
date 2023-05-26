@@ -1,12 +1,8 @@
-from datetime import datetime
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-import json
 import os
 from dotenv import load_dotenv
 import requests
-
-# from transformers import pipeline
 import pandas as pd
 from supabase import create_client, Client
 
@@ -33,8 +29,7 @@ def check_if_analyzed(video_id):
         )
         return response
     except Exception as e:
-        print(e)
-        return None
+        raise e
 
 
 def add_to_analyzed(video_id, sentiments):
@@ -43,7 +38,7 @@ def add_to_analyzed(video_id, sentiments):
             [{"video_id": video_id, "sentiments": sentiments}]
         ).execute()
     except Exception as e:
-        print(e)
+        raise e
 
 
 def __text_cleaner_and_splitter(text):
@@ -131,7 +126,7 @@ def get_video_comments(video_id):
         return comments_cleaned
 
     except HttpError as e:
-        print(f"An HTTP error {e.resp.status} occurred: {e.content}")
+        raise Exception(f"An HTTP error {e.resp.status} occurred: {e.content}")
 
 
 def analyze_comments(comments):
@@ -145,7 +140,7 @@ def analyze_comments(comments):
     sentiments = response.json()
 
     if sentiments is dict and sentiments.get("error"):
-        return sentiments
+        raise Exception(sentiments)
 
     df_data = [
         {
