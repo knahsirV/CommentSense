@@ -16,6 +16,7 @@ load_dotenv()
 YT_API_KEY = os.getenv("YT_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+MODEL_API_KEY = os.getenv("MODEL_API_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Set up YouTube Data API client
@@ -119,26 +120,10 @@ def get_video_comments(video_id):
         )
 
         comments = []
-        while response:
-            for item in response["items"]:
-                comment = item["snippet"]["topLevelComment"]["snippet"]["textDisplay"]
-                comments.append(comment)
 
-            # Check if there are more comments to retrieve
-            if "nextPageToken" in response:
-                response = (
-                    youtube.commentThreads()
-                    .list(
-                        part="snippet",
-                        videoId=video_id,
-                        textFormat="plainText",
-                        maxResults=100,
-                        pageToken=response["nextPageToken"],
-                    )
-                    .execute()
-                )
-            else:
-                break
+        for item in response["items"]:
+            comment = item["snippet"]["topLevelComment"]["snippet"]["textDisplay"]
+            comments.append(comment)
 
         comments_cleaned = [
             " ".join(__text_cleaner_and_splitter(comment)) for comment in comments
@@ -151,24 +136,16 @@ def get_video_comments(video_id):
 
 def analyze_comments(comments):
     API_URL = "https://api-inference.huggingface.co/models/j-hartmann/emotion-english-distilroberta-base"
-    headers = {"Authorization": "Bearer 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"}
+    headers = {"Authorization": MODEL_API_KEY}
     response = requests.post(
         API_URL,
         headers=headers,
-        json={
-            "inputs": comments,
-        },
+        json={"inputs": comments, "parameters": {"truncation": True}},
     )
     sentiments = response.json()
-    # classifier = pipeline(
-    #     "text-classification",
-    #     model="j-hartmann/emotion-english-distilroberta-base",
-    #     top_k=None,
-    # )
 
-    # sentiments = classifier(comments)
-
-    print(sentiments)
+    if type(sentiments) == "Dict" and sentiments.get("error"):
+        return sentiments
 
     df_data = [
         {
