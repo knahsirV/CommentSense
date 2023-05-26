@@ -4,7 +4,9 @@ from googleapiclient.errors import HttpError
 import json
 import os
 from dotenv import load_dotenv
-from transformers import pipeline
+import requests
+
+# from transformers import pipeline
 import pandas as pd
 from supabase import create_client, Client
 
@@ -19,9 +21,15 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 # Set up YouTube Data API client
 youtube = build("youtube", "v3", developerKey=YT_API_KEY)
 
+
 def check_if_analyzed(video_id):
     try:
-        response = supabase.table('AnalyzedVideos').select('*').eq('video_id', video_id).execute()
+        response = (
+            supabase.table("AnalyzedVideos")
+            .select("*")
+            .eq("video_id", video_id)
+            .execute()
+        )
         return response
     except Exception as e:
         print(e)
@@ -30,7 +38,9 @@ def check_if_analyzed(video_id):
 
 def add_to_analyzed(video_id, sentiments):
     try:
-        supabase.table('AnalyzedVideos').insert([{"video_id": video_id, "sentiments": sentiments}]).execute()
+        supabase.table("AnalyzedVideos").insert(
+            [{"video_id": video_id, "sentiments": sentiments}]
+        ).execute()
     except Exception as e:
         print(e)
 
@@ -140,19 +150,30 @@ def get_video_comments(video_id):
 
 
 def analyze_comments(comments):
-
-    classifier = pipeline(
-        "text-classification",
-        model="j-hartmann/emotion-english-distilroberta-base",
-        top_k=None,
+    API_URL = "https://api-inference.huggingface.co/models/j-hartmann/emotion-english-distilroberta-base"
+    headers = {"Authorization": "Bearer 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"}
+    response = requests.post(
+        API_URL,
+        headers=headers,
+        json={
+            "inputs": comments,
+        },
     )
+    sentiments = response.json()
+    # classifier = pipeline(
+    #     "text-classification",
+    #     model="j-hartmann/emotion-english-distilroberta-base",
+    #     top_k=None,
+    # )
 
-    sentiments = classifier(comments)
+    # sentiments = classifier(comments)
+
+    print(sentiments)
 
     df_data = [
         {
             **{"comment": comment},
-            **{item['label']: item["score"] for item in sentiment},
+            **{item["label"]: item["score"] for item in sentiment},
         }
         for comment, sentiment in zip(comments, sentiments)
     ]
@@ -160,11 +181,11 @@ def analyze_comments(comments):
 
     average_sentiments = {}
     for item in sentiments[0]:
-        average_sentiments[item['label']] = df[item['label']].mean()
+        average_sentiments[item["label"]] = df[item["label"]].mean()
 
     comment_sentiments = []
     for comment, sentiment in zip(comments, sentiments):
-        sentiment_scores = {label['label']: label["score"] for label in sentiment}
+        sentiment_scores = {label["label"]: label["score"] for label in sentiment}
         comment_dict = {"comment": comment, "sentiment_scores": sentiment_scores}
         comment_sentiments.append(comment_dict)
 
@@ -176,17 +197,18 @@ def analyze_comments(comments):
 
 if __name__ == "__main__":
     # # Example usage
-    # video_id = "JTOJsU3FSD8"
+    video_id = "8wysIxzqgPI"
 
-    # comments = get_video_comments(video_id)
+    comments = get_video_comments(video_id)
 
-    # sentiments = analyze_comments(comments)
+    sentiments = analyze_comments(comments)
+    print(sentiments)
 
-    is_analyzed = check_if_analyzed('test')
-    print(check_if_analyzed('test'))
-    current_year = datetime.datetime.now().year
-    print(current_year)
-    print(int(is_analyzed.data[0]['created_at'][0:4]) - int(current_year))
+    # is_analyzed = check_if_analyzed("test")
+    # print(check_if_analyzed("test"))
+    # current_year = datetime.datetime.now().year
+    # print(current_year)
+    # print(int(is_analyzed.data[0]["created_at"][0:4]) - int(current_year))
     # add_to_analyzed('test2', {'test': 'test'})
 
     # print(sentiments)
