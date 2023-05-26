@@ -1,9 +1,18 @@
 from datetime import datetime
-from flask import Flask
-
+from flask import Flask, send_from_directory
 import comment_tools as comment_tools
+import os
 
 application = Flask(__name__)
+
+
+@application.route("/favicon.ico")
+def favicon():
+    return send_from_directory(
+        os.path.join(application.root_path, "static"),
+        "favicon.ico",
+        mimetype="image/vnd.microsoft.icon",
+    )
 
 
 @application.route("/")
