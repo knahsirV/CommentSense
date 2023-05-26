@@ -144,7 +144,7 @@ def analyze_comments(comments):
     )
     sentiments = response.json()
 
-    if type(sentiments) == "Dict" and sentiments.get("error"):
+    if sentiments is dict and sentiments.get("error"):
         return sentiments
 
     df_data = [

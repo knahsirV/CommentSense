@@ -22,7 +22,8 @@ def sentiments(video_id):
             return sentiments.data[0]["sentiments"]
     comments = comment_tools.get_video_comments(video_id)
     sentiments = comment_tools.analyze_comments(comments)
-    comment_tools.add_to_analyzed(video_id, sentiments)
+    if (not sentiments is dict) and (not sentiments.get("error")):
+        comment_tools.add_to_analyzed(video_id, sentiments)
     return sentiments
 
 
