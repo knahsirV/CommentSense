@@ -1,3 +1,7 @@
 html {
   font-family: Helvetica, sans-serif;
+  height: 100vh;
+  display: grid;
+  place-content: center;
+  text-align: center;
 }
