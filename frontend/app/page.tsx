@@ -1,14 +1,12 @@
 import Image from "next/image";
-import {
-  LinkIcon,
-  ArrowRightIcon,
-  CodeBracketIcon,
-} from "@heroicons/react/20/solid";
-import { Github } from "react-bootstrap-icons";
 import Link from "next/link";
+import { CodeBracketIcon } from "@heroicons/react/20/solid";
+import { Github } from "react-bootstrap-icons";
+import YTInput from "./components/YTInput";
+
 export default function Home() {
   return (
-    <main className="grid h-screen place-items-center">
+    <main className="grid h-[75vh] place-items-center">
       <div className="w-max">
         <div className="mb-6 flex items-center justify-center gap-4">
           <Image
@@ -24,16 +22,7 @@ export default function Home() {
           Paste in a youtube link to see how its comment section is feeling
           about the video
         </p>
-        <div className="mb-6 grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-full bg-zinc-800 pl-4">
-          <LinkIcon className="h-5 w-5 text-zinc-600" />
-          <input
-            className=" w-full bg-transparent py-3 font-semibold placeholder:text-zinc-600 focus:outline-none"
-            placeholder="https://www.youtube.com/watch?v=..."
-          />
-          <button className="group h-full rounded-r-full px-4 transition-colors duration-200 hover:bg-red-500">
-            <ArrowRightIcon className="h-5 w-5 text-zinc-600 transition-colors duration-200 group-hover:text-white" />
-          </button>
-        </div>
+        <YTInput />
         <div className="flex justify-center gap-4">
           <Link
             href="https://github.com/knahsirV/CommentSense"
