@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, render_template
 import comment_tools as comment_tools
 import os
 
@@ -17,7 +17,7 @@ def favicon():
 
 @application.route("/")
 def home():
-    return "Hello, Flask!"
+    return render_template("index.html")
 
 
 @application.route("/sentiments/<video_id>")
