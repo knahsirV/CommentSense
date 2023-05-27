@@ -4,4 +4,11 @@ html {
   display: grid;
   place-content: center;
   text-align: center;
+  color: #b91c1c;
+}
+
+.message {
+  background-color: #fecaca;
+  padding: 1.5rem;
+  border-radius: 1rem;
 }
