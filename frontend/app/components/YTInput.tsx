@@ -7,7 +7,7 @@ export interface IFormInput {
   url: string;
 }
 
-const YTInput = () => {
+const YTInput = ({ onDashboard }: { onDashboard?: boolean }) => {
   const router = useRouter();
   const {
     register,
@@ -24,7 +24,7 @@ const YTInput = () => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mb-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full bg-zinc-800 pl-4"
+        className={`mb-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full bg-zinc-800 pl-4`}
       >
         <PlayIcon className="h-5 w-5 rounded bg-zinc-700 p-1 text-zinc-500" />
         <input
@@ -52,7 +52,9 @@ const YTInput = () => {
         </button>
       </form>
       <span
-        className={`mb-4 ml-1 block text-center text-xs font-bold ${
+        className={`${
+          !onDashboard && "mb-4"
+        } ml-1 block text-center text-xs font-bold ${
           errors?.url
             ? "text-red-400"
             : "cursor-default select-none text-transparent"
