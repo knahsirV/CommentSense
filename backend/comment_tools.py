@@ -135,36 +135,46 @@ def analyze_comments(comments):
     response = requests.post(
         API_URL,
         headers=headers,
-        json={"inputs": comments, "parameters": {"truncation": True}},
+        json={
+            "inputs": comments,
+            "parameters": {"truncation": True},
+            "options": {"wait_for_model": True},
+        },
     )
     sentiments = response.json()
 
     if sentiments is dict and sentiments.get("error"):
         raise Exception(sentiments)
 
-    df_data = [
-        {
-            **{"comment": comment},
-            **{item["label"]: item["score"] for item in sentiment},
-        }
-        for comment, sentiment in zip(comments, sentiments)
-    ]
-    df = pd.DataFrame(df_data)
-
-    average_sentiments = {}
-    for item in sentiments[0]:
-        average_sentiments[item["label"]] = df[item["label"]].mean()
-
     comment_sentiments = []
     for comment, sentiment in zip(comments, sentiments):
-        sentiment_scores = {label["label"]: label["score"] for label in sentiment}
-        comment_dict = {"comment": comment, "sentiment_scores": sentiment_scores}
+        highest_sentiment_label = max(sentiment, key=lambda x: x["score"])["label"]
+        comment_dict = {"comment": comment, "sentiment": highest_sentiment_label}
         comment_sentiments.append(comment_dict)
 
-    return {
-        "average_sentiments": average_sentiments,
-        "comment_sentiments": comment_sentiments,
+    df = pd.DataFrame(comment_sentiments)
+
+    emotes = ["sadness", "joy", "love", "anger", "fear", "surprise", "neutral"]
+
+    response = {}
+
+    response["aggregate"] = {
+        "total_comments": len(comments),
+        "most_common_sentiment": df["sentiment"].value_counts().idxmax(),
     }
+
+    response["sentiments"] = {}
+
+    for emote in emotes:
+        response["sentiments"][emote] = df[df["sentiment"] == emote]["comment"].tolist()
+
+    # if response["aggregate"]["most_common_sentiment"] == "neutral":
+    #     next_most_common_sentiment = (
+    #         df[df["sentiment"] != "neutral"]["sentiment"].value_counts().idxmax()
+    #     )
+    #     response["aggregate"]["most_common_sentiment"] = next_most_common_sentiment
+
+    return response
 
 
 if __name__ == "__main__":
