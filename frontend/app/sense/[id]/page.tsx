@@ -4,6 +4,7 @@ import EmoteChoice from "@/app/components/EmoteChoice";
 import Link from "next/link";
 import { Github } from "react-bootstrap-icons";
 import { CodeBracketIcon, PlayIcon } from "@heroicons/react/20/solid";
+import DistChart from "@/app/components/DistChart";
 
 const page = ({ params }: { params: { id: string } }) => {
   return (
@@ -55,7 +56,7 @@ const page = ({ params }: { params: { id: string } }) => {
         </Link>
       </div>
       <div className="grid h-full grid-cols-12 grid-rows-2 gap-10">
-        <div className=" col-start-1 col-end-5 row-span-1 grid grid-rows-[auto_1fr_auto] rounded-xl bg-zinc-800 p-10">
+        <div className=" col-start-1 col-end-5 row-span-1 grid grid-rows-[auto_1fr_auto] rounded-xl bg-zinc-800 p-8">
           <h6 className="text-xl font-semibold">
             This {"video's"} comment section is feeling . . .
           </h6>
@@ -64,13 +65,13 @@ const page = ({ params }: { params: { id: string } }) => {
             . . . about this video
           </h6>
         </div>
-        <div className=" col-start-5 col-end-8 row-span-1 grid place-content-center rounded-xl bg-zinc-800 p-10">
+        <div className=" col-start-5 col-end-8 row-span-1 grid place-content-center rounded-xl bg-zinc-800 p-8">
           <h1 className="my-auto mb-2 text-center text-8xl font-bold">100</h1>
           <h6 className="text-center text-2xl font-semibold">
             Comments Analyzed
           </h6>
         </div>
-        <div className=" col-start-1 col-end-4 row-span-1 row-start-2  rounded-xl bg-zinc-800 p-10">
+        <div className=" col-start-1 col-end-4 row-span-1 row-start-2  rounded-xl bg-zinc-800 p-8">
           <h5 className=" mb-4 text-xl font-bold text-zinc-500">
             {"What's"} going on here?
           </h5>
@@ -80,12 +81,13 @@ const page = ({ params }: { params: { id: string } }) => {
             quite entertaining.
           </h6>
         </div>
-        <div className=" col-start-4 col-end-8 row-span-1 row-start-2 rounded-xl bg-zinc-800 p-10">
-          <h5 className=" mb-4 text-center text-2xl font-bold text-zinc-500">
+        <div className=" col-start-4 col-end-8 row-span-1 row-start-2 rounded-xl bg-zinc-800 p-8">
+          <h5 className=" mb-4 grid grid-rows-[auto_1fr] text-center text-xl font-bold text-zinc-500">
             Sentiment Distribution
           </h5>
+          <DistChart />
         </div>
-        <div className="col-start-8 col-end-13 row-span-2 grid grid-rows-[auto_minmax(0,_1fr)] gap-8 overflow-scroll rounded-xl bg-zinc-800 p-10">
+        <div className="col-start-8 col-end-13 row-span-2 grid grid-rows-[auto_minmax(0,_1fr)] gap-8 overflow-scroll rounded-xl bg-zinc-800 p-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h5 className="font-bold">View all comments that are</h5>
