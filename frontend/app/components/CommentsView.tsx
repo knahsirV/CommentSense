@@ -46,11 +46,11 @@ const CommentsView = ({
             setSelectedEmote={setSelectedEmote}
           />
         </div>
-        <span className="text-sm font-semibold text-zinc-500">
+        <span className="text-right text-sm font-semibold text-zinc-500">
           {comments.length} comments
         </span>
       </div>
-      <div className="scrollbar-hide max-h-[30rem] space-y-8 overflow-scroll rounded-xl">
+      <div className="scrollbar-hide space-y-8 overflow-scroll rounded-xl">
         {comments.map((comment: string) => (
           <div
             key={comment}

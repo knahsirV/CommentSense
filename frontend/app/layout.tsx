@@ -8,10 +8,18 @@ export const metadata = {
   description: "Sentiment analysis for YouTube comments",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang='en'>
-      <body className={`bg-zinc-900 text-white ${urbanist.className}`}>{children}</body>
+    <html lang="en">
+      <body
+        className={`bg-zinc-950 bg-opacity-[98%] text-white ${urbanist.className}`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

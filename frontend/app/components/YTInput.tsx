@@ -24,11 +24,11 @@ const YTInput = ({ onDashboard }: { onDashboard?: boolean }) => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={`mb-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full bg-zinc-800 pl-4`}
+        className={`mb-2 grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full bg-zinc-900 pl-4`}
       >
-        <PlayIcon className="h-5 w-5 rounded bg-zinc-700 p-1 text-zinc-500" />
+        <PlayIcon className="h-5 w-5 rounded bg-zinc-800 p-1 text-zinc-600" />
         <input
-          className=" w-full bg-transparent py-3 font-semibold placeholder:text-zinc-600 autofill:bg-transparent focus:outline-none"
+          className=" w-full bg-transparent py-3 font-semibold placeholder:text-zinc-700 autofill:shadow-[inset_0_0_0px_1000px_rgb(24,24,27)] autofill:[-webkit-text-fill-color:_#fff] focus:outline-none"
           placeholder="https://www.youtube.com/watch?v=..."
           {...register("url", {
             required: "Please enter a youtube link to proceed",
@@ -46,9 +46,9 @@ const YTInput = ({ onDashboard }: { onDashboard?: boolean }) => {
         <button
           type="submit"
           disabled={!isDirty || !isValid}
-          className="group h-full rounded-r-full px-4 transition-colors duration-200 hover:bg-red-500 disabled:cursor-not-allowed disabled:hover:bg-zinc-600"
+          className="group h-full rounded-r-full px-4 transition-colors duration-200 hover:bg-red-500 disabled:cursor-not-allowed disabled:hover:bg-zinc-700"
         >
-          <ArrowRightIcon className="h-5 w-5 text-zinc-600 transition-colors duration-200 group-hover:text-white" />
+          <ArrowRightIcon className="h-5 w-5 text-zinc-700 transition-colors duration-200 group-hover:text-white" />
         </button>
       </form>
       <span

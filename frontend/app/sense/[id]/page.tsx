@@ -71,8 +71,8 @@ async function page({ params }: { params: { id: string } }) {
       "This video’s viewers seem to be quite neutral. This could be becuase the video did not evoke any strong emotions in them.",
   };
   return (
-    <main className="grid h-[100dvh] grid-rows-[auto_auto_1fr] p-6 lg:p-10">
-      <div className="grid-cols-[300px_1fr_300px] items-center gap-4 lg:mb-4 lg:grid">
+    <main className="grid h-[100dvh] grid-rows-[auto_auto_1fr] gap-4 p-6 lg:h-screen lg:p-10">
+      <div className="grid-cols-[300px_1fr_300px] items-center gap-4 lg:grid">
         <Link
           href="/"
           className=" mb-6 flex items-center justify-center gap-4 lg:justify-start"
@@ -93,7 +93,7 @@ async function page({ params }: { params: { id: string } }) {
           <Link
             href="https://github.com/knahsirV/CommentSense"
             target="_blank"
-            className=" flex w-max items-center gap-2 rounded-xl bg-zinc-800 px-4 py-1.5 font-bold  text-white transition duration-200 hover:bg-white hover:text-zinc-800"
+            className=" flex w-max items-center gap-2 rounded-xl bg-zinc-900 px-4 py-1.5 font-bold  text-white transition duration-200 hover:bg-white hover:text-zinc-800"
           >
             <Github className="h-4 w-4" />
             <span>View Repo</span>
@@ -101,19 +101,19 @@ async function page({ params }: { params: { id: string } }) {
           <Link
             href="https://www.vrishank.dev/projects"
             target="_blank"
-            className="flex w-max items-center gap-2 rounded-xl bg-zinc-800 px-4 py-1.5 font-bold  text-white transition duration-200 hover:bg-white hover:text-zinc-800"
+            className="flex w-max items-center gap-2 rounded-xl bg-zinc-900 px-4 py-1.5 font-bold  text-white transition duration-200 hover:bg-white hover:text-zinc-800"
           >
             <CodeBracketIcon className="h-4 w-4" />
             <span>More Projects</span>
           </Link>
         </div>
       </div>
-      <div className="items-top mb-5 justify-between lg:flex">
+      <div className="items-top justify-between lg:flex">
         <div className="mb-2 lg:mb-0">
-          <h1 className=" mb-2 text-center text-xl font-bold lg:mb-0 lg:max-w-[50ch] lg:truncate lg:text-left lg:text-4xl">
+          <h1 className=" mb-2 text-center text-xl font-bold lg:mb-0 lg:max-w-[50ch] lg:truncate lg:text-left lg:text-2xl xl:text-4xl">
             {video_details.title}
           </h1>
-          <h3 className="flex items-center justify-center text-center text-lg font-semibold text-zinc-500 lg:justify-start lg:text-left lg:text-xl">
+          <h3 className="flex items-center justify-center text-center text-lg font-semibold text-zinc-600 lg:justify-start lg:text-left lg:text-xl">
             <UserCircleIcon className="mr-1 inline-block h-6 w-6" />
             {video_details.channel}
           </h3>
@@ -121,14 +121,14 @@ async function page({ params }: { params: { id: string } }) {
         <Link
           href={`https://youtube.com/watch?v=${params.id}`}
           target="_blank"
-          className="mx-auto flex h-min w-max items-center gap-2 rounded-xl bg-zinc-800 px-4 py-1.5 font-bold text-white transition duration-200 hover:bg-white hover:text-zinc-800 lg:mx-0"
+          className="mx-auto flex h-min w-max items-center gap-2 rounded-xl bg-zinc-900 px-4 py-1.5 font-bold text-white transition duration-200 hover:bg-white hover:text-zinc-800 lg:mx-0"
         >
           <PlayIcon className="h-5 w-5 rounded bg-red-500 p-1 text-white" />
           <span>Watch Video</span>
         </Link>
       </div>
-      <div className="grid h-full grid-cols-2 grid-rows-3 gap-6 lg:grid-cols-12 lg:grid-rows-2 lg:gap-10">
-        <div className=" col-start-1 col-end-3 row-span-1 grid-rows-[auto_1fr_auto] rounded-xl bg-zinc-800 p-4 lg:col-start-1 lg:col-end-5 lg:grid lg:p-8">
+      <div className=" grid h-full min-h-0 place-content-center lg:grid-cols-12  lg:grid-rows-2 lg:place-content-start lg:gap-10">
+        <div className=" grid-rows-[auto_1fr_auto] rounded-xl bg-zinc-900 p-4 lg:col-start-1 lg:col-end-5 lg:grid lg:p-8">
           <h6 className="font-semibold lg:text-xl">
             This {"video's"} comment section is feeling . . .
           </h6>
@@ -139,7 +139,7 @@ async function page({ params }: { params: { id: string } }) {
             . . . about this video
           </h6>
         </div>
-        <div className=" col-start-5 col-end-8 row-span-1 hidden place-content-center rounded-xl bg-zinc-800 p-8 lg:grid">
+        <div className=" col-start-5 col-end-8 row-span-1 hidden place-content-center rounded-xl bg-zinc-900 p-8 lg:grid">
           <h1 className="my-auto mb-2 text-center text-8xl font-bold">
             {total_comments}
           </h1>
@@ -147,45 +147,51 @@ async function page({ params }: { params: { id: string } }) {
             Comment{total_comments > 1 && "s"} Analyzed
           </h6>
         </div>
-        <div className=" col-start-1 col-end-4 row-span-1 row-start-2  hidden rounded-xl bg-zinc-800 p-8 lg:block">
+        <div className=" col-start-1 col-end-4 row-span-1 row-start-2 hidden grid-rows-[auto_minmax(0,_1fr)] rounded-xl bg-zinc-900 p-8 lg:grid">
           <h5 className=" mb-4 text-xl font-bold text-zinc-500">
             {"What's"} going on here?
           </h5>
-          <h6 className=" font-semibold leading-loose">
-            {emotionReasons[mostCommonEmotion]}
-          </h6>
+          <div className="scrollbar-hide overflow-scroll rounded-md">
+            <h6 className=" font-semibold leading-loose">
+              {emotionReasons[mostCommonEmotion]}
+            </h6>
+          </div>
         </div>
-        <div className=" col-start-4 col-end-8 row-span-1 row-start-2 hidden rounded-xl bg-zinc-800 p-8 lg:block">
-          <h5 className=" mb-4 grid grid-rows-[auto_1fr] text-center text-xl font-bold text-zinc-500">
+        <div className=" col-start-4 col-end-8 row-span-1 row-start-2 hidden grid-rows-[auto_minmax(0,_1fr)] rounded-xl bg-zinc-900 p-8 lg:grid">
+          <h5 className=" mb-4 text-center text-xl font-bold text-zinc-500">
             Sentiment Distribution
           </h5>
-          <DistChart
-            emoteData={[
-              emotions.joy.length,
-              emotions.anger.length,
-              emotions.fear.length,
-              emotions.sadness.length,
-              emotions.surprise.length,
-              emotions.disgust.length,
-              emotions.neutral.length,
-            ]}
-          />
+          <div className="scrollbar-hide overflow-scroll rounded-md">
+            <DistChart
+              emoteData={[
+                emotions.joy.length,
+                emotions.anger.length,
+                emotions.fear.length,
+                emotions.sadness.length,
+                emotions.surprise.length,
+                emotions.disgust.length,
+                emotions.neutral.length,
+              ]}
+            />
+          </div>
         </div>
-        <div className="col-start-8 col-end-13 row-span-2 hidden grid-rows-[auto_minmax(0,_1fr)] gap-8 overflow-scroll rounded-xl bg-zinc-800 p-8 lg:grid">
+        <div className="col-start-8 col-end-13 row-span-2 hidden grid-rows-[auto_minmax(0,_1fr)] gap-8 rounded-xl bg-zinc-900 p-8 lg:grid">
           <CommentsView
             data={emotionData}
             defaultChoice={emoteLabels[mostCommonEmotion].substring(3)}
           />
         </div>
-        <button className="col-start-1 col-end-2 row-start-2 rounded-xl bg-zinc-800 p-4 text-lg font-semibold lg:hidden">
-          {"What's"} going on here?
-        </button>
-        <button className="col-start-1 col-end-2 row-start-3 rounded-xl bg-zinc-800 p-4 text-lg font-semibold lg:hidden">
-          Sentiment Distribution
-        </button>
-        <button className="col-start-2 col-end-3 row-span-2 row-start-2 rounded-xl bg-zinc-800 p-4 text-lg font-semibold lg:hidden">
-          All comments for each emotion
-        </button>
+        <div className="mt-6 flex flex-wrap justify-center gap-6 lg:hidden">
+          <button className="w-1/3 rounded-xl bg-zinc-900 p-4 font-semibold ">
+            {"What's"} going on here?
+          </button>
+          <button className=" rounded-xl bg-zinc-900 p-4  font-semibold ">
+            Sentiment Distribution
+          </button>
+          <button className=" rounded-xl bg-zinc-900 p-4 font-semibold">
+            All comments for each emotion
+          </button>
+        </div>
       </div>
     </main>
   );
