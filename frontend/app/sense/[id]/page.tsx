@@ -10,35 +10,8 @@ import {
 import DistChart from "@/app/components/DistChart";
 import { use } from "react";
 import CommentsView from "@/app/components/CommentsView";
-
-export interface EmotionData {
-  sentiment_data: {
-    aggregate: {
-      most_common_sentiment:
-        | "joy"
-        | "anger"
-        | "sadness"
-        | "fear"
-        | "surprise"
-        | "disgust"
-        | "neutral";
-      total_comments: number;
-    };
-    sentiments: {
-      joy: string[];
-      anger: string[];
-      sadness: string[];
-      fear: string[];
-      surprise: string[];
-      disgust: string[];
-      neutral: string[];
-    };
-  };
-  video_details: {
-    title: string;
-    channel: string;
-  };
-}
+import MobileView from "@/app/components/MobileView";
+import { EmotionData, emoteLabels, emotionReasons } from "@/app/ConstData";
 
 async function page({ params }: { params: { id: string } }) {
   const emotionData: EmotionData = await getSentiments(params.id);
@@ -47,29 +20,7 @@ async function page({ params }: { params: { id: string } }) {
   const total_comments = emotionData.sentiment_data.aggregate.total_comments;
   const emotions = emotionData.sentiment_data.sentiments;
   const video_details = emotionData.video_details;
-  const emoteLabels = {
-    joy: "😄 Joyful",
-    anger: "😡 Angry",
-    sadness: "😢 Sad",
-    fear: "😨 Fearful",
-    surprise: "😮 Surprised",
-    disgust: "🤢 Disgusted",
-    neutral: "😐 Neutral",
-  };
-  const emotionReasons = {
-    joy: "This video’s viewers seem to really like this video. This could be because they agree with the message of it, or because they found it quite entertaining.",
-    anger:
-      "This video’s viewers seem to be quite angry. This could be because they disagree with the message of it, or because they found it quite offensive.",
-    sadness:
-      "This video’s viewers seem to be quite sad. This could be because they the video was quite depressing, or because it triggered some bad memories.",
-    fear: "This video’s viewers seem to be quite fearful. This could be because they find the material concerning, or because they are scared of the topic.",
-    surprise:
-      "This video’s viewers seem to be quite surprised. This could be because they found the video quite shocking, or because they were not expecting the video to be about this topic.",
-    disgust:
-      "This video’s viewers seem to be quite disgusted. This could be because they found the video quite offensive, or because they were not expecting the video to be about this topic.",
-    neutral:
-      "This video’s viewers seem to be quite neutral. This could be becuase the video did not evoke any strong emotions in them.",
-  };
+
   return (
     <main className="grid h-[100dvh] grid-rows-[auto_auto_1fr] gap-4 p-6 lg:h-screen lg:p-10">
       <div className="grid-cols-[300px_1fr_300px] items-center gap-4 lg:grid">
@@ -127,7 +78,7 @@ async function page({ params }: { params: { id: string } }) {
           <span>Watch Video</span>
         </Link>
       </div>
-      <div className=" grid h-full min-h-0 place-content-center lg:grid-cols-12  lg:grid-rows-2 lg:place-content-start lg:gap-10">
+      <div className=" min-h-0 lg:grid lg:grid-cols-12  lg:grid-rows-2 lg:place-content-start lg:gap-10">
         <div className=" grid-rows-[auto_1fr_auto] rounded-xl bg-zinc-900 p-4 lg:col-start-1 lg:col-end-5 lg:grid lg:p-8">
           <h6 className="font-semibold lg:text-xl">
             This {"video's"} comment section is feeling . . .
@@ -181,17 +132,7 @@ async function page({ params }: { params: { id: string } }) {
             defaultChoice={emoteLabels[mostCommonEmotion].substring(3)}
           />
         </div>
-        <div className="mt-6 flex flex-wrap justify-center gap-6 lg:hidden">
-          <button className="w-1/3 rounded-xl bg-zinc-900 p-4 font-semibold ">
-            {"What's"} going on here?
-          </button>
-          <button className=" rounded-xl bg-zinc-900 p-4  font-semibold ">
-            Sentiment Distribution
-          </button>
-          <button className=" rounded-xl bg-zinc-900 p-4 font-semibold">
-            All comments for each emotion
-          </button>
-        </div>
+        <MobileView emotionData={emotionData} />
       </div>
     </main>
   );

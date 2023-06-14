@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import EmoteChoice from "./EmoteChoice";
-import { EmotionData } from "../sense/[id]/page";
+import { EmotionData } from "../ConstData";
 
 const CommentsView = ({
   defaultChoice,
@@ -39,14 +39,16 @@ const CommentsView = ({
     <>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h5 className="font-bold">View all comments that are</h5>
+          <h5 className="hidden text-left text-sm font-bold lg:block lg:text-base">
+            View all comments that are
+          </h5>
           <EmoteChoice
             emotes={emotes.map((emote) => emote.em)}
             selectedEmote={selectedEmote}
             setSelectedEmote={setSelectedEmote}
           />
         </div>
-        <span className="text-right text-sm font-semibold text-zinc-500">
+        <span className="text-right text-xs font-semibold text-zinc-500 lg:text-sm">
           {comments.length} comments
         </span>
       </div>

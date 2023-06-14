@@ -16,7 +16,9 @@ const EmoteChoice = ({
     <Listbox value={selectedEmote} onChange={setSelectedEmote}>
       <div className="relative">
         <Listbox.Button className=" flex items-center justify-between gap-1 rounded-full bg-zinc-700 px-3 py-1">
-          <span className="w-[9ch] font-bold">{selectedEmote}</span>
+          <span className="w-[9ch] text-sm font-bold lg:text-base">
+            {selectedEmote}
+          </span>
           <ChevronUpDownIcon className="h-5 w-5" />
         </Listbox.Button>
         <Listbox.Options className="absolute left-1 mt-1 rounded-md bg-zinc-700 p-2 shadow-md">
