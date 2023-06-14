@@ -4,7 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip);
 
-const DistChart = () => {
+const DistChart = ({ emoteData }: { emoteData: number[] }) => {
   const colors = [
     "#fcd34d", // amber-300
     "#ef4444", // red-500
@@ -27,7 +27,7 @@ const DistChart = () => {
     datasets: [
       {
         label: "# of Comments",
-        data: [12, 19, 13, 15, 12, 13, 10],
+        data: emoteData,
         backgroundColor: colors,
         borderColor: colors,
       },
