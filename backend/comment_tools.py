@@ -138,12 +138,11 @@ def analyze_comments(comments):
         json={
             "inputs": comments,
             "parameters": {"truncation": True},
-            "options": {"wait_for_model": True},
         },
     )
     sentiments = response.json()
 
-    if sentiments is dict and sentiments.get("error"):
+    if type(sentiments) == dict and sentiments.get("error"):
         raise Exception(sentiments)
 
     comment_sentiments = []
@@ -154,7 +153,7 @@ def analyze_comments(comments):
 
     df = pd.DataFrame(comment_sentiments)
 
-    emotes = ["sadness", "joy", "love", "anger", "fear", "surprise", "neutral"]
+    emotes = ["sadness", "joy", "disgust", "anger", "fear", "surprise", "neutral"]
 
     response = {}
 
@@ -168,11 +167,11 @@ def analyze_comments(comments):
     for emote in emotes:
         response["sentiments"][emote] = df[df["sentiment"] == emote]["comment"].tolist()
 
-    # if response["aggregate"]["most_common_sentiment"] == "neutral":
-    #     next_most_common_sentiment = (
-    #         df[df["sentiment"] != "neutral"]["sentiment"].value_counts().idxmax()
-    #     )
-    #     response["aggregate"]["most_common_sentiment"] = next_most_common_sentiment
+    if response["aggregate"]["most_common_sentiment"] == "neutral":
+        next_most_common_sentiment = (
+            df[df["sentiment"] != "neutral"]["sentiment"].value_counts().idxmax()
+        )
+        response["aggregate"]["most_common_sentiment"] = next_most_common_sentiment
 
     return response
 
