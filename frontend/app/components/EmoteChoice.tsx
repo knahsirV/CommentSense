@@ -1,18 +1,17 @@
 "use client";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Listbox } from "@headlessui/react";
 import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/20/solid";
 
-const EmoteChoice = () => {
-  const emotes = [
-    "Joyful",
-    "Surprised",
-    "Sad",
-    "Angry",
-    "Disgusted",
-    "Fearful",
-  ];
-  const [selectedEmote, setSelectedEmote] = useState(emotes[0]);
+const EmoteChoice = ({
+  emotes,
+  selectedEmote,
+  setSelectedEmote,
+}: {
+  emotes: string[];
+  selectedEmote: string;
+  setSelectedEmote: Dispatch<SetStateAction<string>>;
+}) => {
   return (
     <Listbox value={selectedEmote} onChange={setSelectedEmote}>
       <div className="relative">
