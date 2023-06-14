@@ -15,7 +15,7 @@ const CommentsView = ({
     { em: "Angry", bg: "bg-red-500", text: "text-red-500" },
     { em: "Fearful", bg: "bg-violet-500", text: "text-violet-500" },
     { em: "Sad", bg: "bg-blue-600", text: "text-blue-600" },
-    { em: "Suprised", bg: "bg-green-400", text: "text-green-400" },
+    { em: "Surprised", bg: "bg-green-400", text: "text-green-400" },
     { em: "Disgusted", bg: "bg-lime-200", text: "text-lime-200" },
     { em: "Neutral", bg: "bg-slate-500", text: "text-slate-500" },
   ];
@@ -24,16 +24,16 @@ const CommentsView = ({
     Angry: "anger",
     Sad: "sadness",
     Fearful: "fear",
-    Suprised: "surprise",
+    Surprised: "surprise",
     Disgusted: "disgust",
     Neutral: "neutral",
   };
   const [selectedEmote, setSelectedEmote] = useState(defaultChoice);
   const comments: string[] =
-    data.sentiment_data.sentiments[
+    data.sentiments[
       emoteLabels[
         selectedEmote as keyof typeof emoteLabels
-      ] as keyof typeof data.sentiment_data.sentiments
+      ] as keyof typeof data.sentiments
     ];
   return (
     <>

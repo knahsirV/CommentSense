@@ -9,9 +9,8 @@ const MobileView = ({ emotionData }: { emotionData: EmotionData }) => {
   const [explanationModalOpen, setExplanationModalOpen] = useState(false);
   const [sentimentModalOpen, setSentimentModalOpen] = useState(false);
   const [allCommentsModalOpen, setAllCommentModalOpen] = useState(false);
-  const emotions = emotionData.sentiment_data.sentiments;
-  const mostCommonEmotion =
-    emotionData.sentiment_data.aggregate.most_common_sentiment;
+  const emotions = emotionData.sentiments;
+  const mostCommonEmotion = emotionData.aggregate.most_common_sentiment;
   return (
     <div className="mt-6 flex flex-wrap justify-center gap-6 lg:hidden">
       <button

@@ -1,30 +1,29 @@
 export interface EmotionData {
-  sentiment_data: {
-    aggregate: {
-      most_common_sentiment:
-        | "joy"
-        | "anger"
-        | "sadness"
-        | "fear"
-        | "surprise"
-        | "disgust"
-        | "neutral";
-      total_comments: number;
-    };
-    sentiments: {
-      joy: string[];
-      anger: string[];
-      sadness: string[];
-      fear: string[];
-      surprise: string[];
-      disgust: string[];
-      neutral: string[];
-    };
+  aggregate: {
+    most_common_sentiment:
+      | "joy"
+      | "anger"
+      | "sadness"
+      | "fear"
+      | "surprise"
+      | "disgust"
+      | "neutral";
+    total_comments: number;
   };
-  video_details: {
-    title: string;
-    channel: string;
+  sentiments: {
+    joy: string[];
+    anger: string[];
+    sadness: string[];
+    fear: string[];
+    surprise: string[];
+    disgust: string[];
+    neutral: string[];
   };
+}
+
+export interface VideoData {
+  title: string;
+  channel: string;
 }
 
 export const emoteLabels = {

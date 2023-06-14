@@ -11,15 +11,19 @@ import DistChart from "@/app/components/DistChart";
 import { use } from "react";
 import CommentsView from "@/app/components/CommentsView";
 import MobileView from "@/app/components/MobileView";
-import { EmotionData, emoteLabels, emotionReasons } from "@/app/ConstData";
+import {
+  EmotionData,
+  VideoData,
+  emoteLabels,
+  emotionReasons,
+} from "@/app/ConstData";
 
 async function page({ params }: { params: { id: string } }) {
   const emotionData: EmotionData = await getSentiments(params.id);
-  const mostCommonEmotion =
-    emotionData.sentiment_data.aggregate.most_common_sentiment;
-  const total_comments = emotionData.sentiment_data.aggregate.total_comments;
-  const emotions = emotionData.sentiment_data.sentiments;
-  const video_details = emotionData.video_details;
+  const mostCommonEmotion = emotionData.aggregate.most_common_sentiment;
+  const total_comments = emotionData.aggregate.total_comments;
+  const emotions = emotionData.sentiments;
+  const video_details = await getVideoDetails(params.id);
 
   return (
     <main className="grid h-[100dvh] grid-rows-[auto_auto_1fr] gap-4 p-6 lg:h-screen lg:p-10">
@@ -140,7 +144,14 @@ async function page({ params }: { params: { id: string } }) {
 
 async function getSentiments(id: string) {
   const data: EmotionData = await fetch(
-    `http://flask-env.eba-psh44mba.us-east-2.elasticbeanstalk.com/sentiments/${id}`
+    `http://flask-env.eba-psh44mba.us-east-2.elasticbeanstalk.com/${id}/sentiments`
+  ).then((res: any) => res.json());
+  return data;
+}
+
+async function getVideoDetails(id: string) {
+  const data: VideoData = await fetch(
+    `http://flask-env.eba-psh44mba.us-east-2.elasticbeanstalk.com/${id}/details`
   ).then((res: any) => res.json());
   return data;
 }
