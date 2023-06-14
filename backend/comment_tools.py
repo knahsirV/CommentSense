@@ -100,6 +100,23 @@ def __text_cleaner_and_splitter(text):
     )
 
 
+def get_video_details(video_id):
+    try:
+        response = (
+            youtube.videos()
+            .list(
+                part="snippet",
+                id=video_id,
+            )
+            .execute()
+        )
+        video = response["items"][0]["snippet"]
+        return {"title": video["title"], "channel": video["channelTitle"]}
+
+    except HttpError as e:
+        raise Exception(f"An HTTP error {e.resp.status} occurred: {e.content}")
+
+
 def get_video_comments(video_id):
     try:
         # Request the comments of the specified video
@@ -109,7 +126,7 @@ def get_video_comments(video_id):
                 part="snippet",
                 videoId=video_id,
                 textFormat="plainText",
-                maxResults=100,  # Change the value as per your requirement
+                maxResults=100,
             )
             .execute()
         )
@@ -180,10 +197,12 @@ if __name__ == "__main__":
     # # Example usage
     video_id = "8wysIxzqgPI"
 
-    comments = get_video_comments(video_id)
+    print(get_video_details(video_id))
 
-    sentiments = analyze_comments(comments)
-    print(sentiments)
+    # comments = get_video_comments(video_id)
+
+    # sentiments = analyze_comments(comments)
+    # print(sentiments)
 
     # is_analyzed = check_if_analyzed("test")
     # print(check_if_analyzed("test"))

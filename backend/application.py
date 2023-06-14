@@ -30,10 +30,15 @@ def sentiments(video_id):
             year_now = int(datetime.now().year)
             if year_now - year_analyzed == 0:
                 return sentiments.data[0]["sentiments"]
+        video_details = comment_tools.get_video_details(video_id)
         comments = comment_tools.get_video_comments(video_id)
         sentiments = comment_tools.analyze_comments(comments)
+        res = {
+            "video_details": video_details,
+            "sentiment_data": sentiments,
+        }
         if (not sentiments is dict) and (not sentiments.get("error")):
-            comment_tools.add_to_analyzed(video_id, sentiments)
+            comment_tools.add_to_analyzed(video_id, res)
         return sentiments
     except Exception as e:
         return {"error": str(e)}
