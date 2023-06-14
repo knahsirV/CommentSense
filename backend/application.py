@@ -20,7 +20,17 @@ def home():
     return render_template("index.html")
 
 
-@application.route("/sentiments/<video_id>")
+@application.route("/<video_id>/details")
+def details(video_id):
+    try:
+        video_id = str(video_id)
+        video_details = comment_tools.get_video_details(video_id)
+        return video_details
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@application.route("/<video_id>/sentiments/")
 def sentiments(video_id):
     try:
         video_id = str(video_id)
@@ -30,15 +40,10 @@ def sentiments(video_id):
             year_now = int(datetime.now().year)
             if year_now - year_analyzed == 0:
                 return sentiments.data[0]["sentiments"]
-        video_details = comment_tools.get_video_details(video_id)
         comments = comment_tools.get_video_comments(video_id)
         sentiments = comment_tools.analyze_comments(comments)
-        res = {
-            "video_details": video_details,
-            "sentiment_data": sentiments,
-        }
         if (not sentiments is dict) and (not sentiments.get("error")):
-            comment_tools.add_to_analyzed(video_id, res)
+            comment_tools.add_to_analyzed(video_id, sentiments)
         return sentiments
     except Exception as e:
         return {"error": str(e)}
