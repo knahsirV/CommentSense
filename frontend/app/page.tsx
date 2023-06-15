@@ -6,7 +6,7 @@ import YTInput from "./components/YTInput";
 
 export default function Home() {
   return (
-    <main className="grid h-[75vh] place-content-center p-6">
+    <main className="grid h-[75vh] animate-fade-in-down place-content-center p-6">
       <div className="mb-6 flex items-center justify-center gap-4">
         <Image
           width={200}

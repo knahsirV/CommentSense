@@ -8,7 +8,7 @@ import SentimentDashboard from "@/app/components/SentimentDashboard";
 
 function page({ params }: { params: { id: string } }) {
   return (
-    <main className="grid h-[100dvh] grid-rows-[auto_auto_1fr] gap-4 p-6 lg:h-screen lg:p-10">
+    <main className="grid h-[100dvh] animate-fade-in-down grid-rows-[auto_auto_1fr] gap-4 p-6 lg:h-screen lg:p-10">
       <div className="grid-cols-[300px_1fr_300px] items-center gap-4 lg:grid">
         <Link
           href="/"
