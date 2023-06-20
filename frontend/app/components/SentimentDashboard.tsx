@@ -16,11 +16,7 @@ const SentimentDashboard = ({ id }: { id: string }) => {
 };
 
 const Content = async ({ id }: { id: string }) => {
-  const emotionData: EmotionData = {
-    error: "error",
-    sentiments: undefined,
-    aggregate: undefined,
-  };
+  const emotionData: EmotionData = await getSentiments(id);
   const mostCommonEmotion = emotionData.aggregate?.most_common_sentiment;
   const total_comments = emotionData.aggregate?.total_comments;
   const emotions = emotionData.sentiments;
