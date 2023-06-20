@@ -29,7 +29,8 @@ const CommentsView = ({
     Neutral: "neutral",
   };
   const [selectedEmote, setSelectedEmote] = useState(defaultChoice);
-  const comments: string[] =
+  const comments =
+    data.sentiments &&
     data.sentiments[
       emoteLabels[
         selectedEmote as keyof typeof emoteLabels
@@ -49,26 +50,27 @@ const CommentsView = ({
           />
         </div>
         <span className="text-right text-xs font-semibold text-zinc-500 lg:text-sm">
-          {comments.length} comments
+          {comments && comments.length} comments
         </span>
       </div>
       <div className="scrollbar-hide space-y-8 overflow-scroll rounded-xl">
-        {comments.map((comment: string) => (
-          <div
-            key={comment}
-            className={` w-max max-w-[75%] rounded-xl ${
-              emotes.find((emote) => emote.em === selectedEmote)?.bg
-            } bg-opacity-30 p-4 even:ml-auto even:text-right`}
-          >
-            <span
-              className={` font-semibold ${
-                emotes.find((emote) => emote.em === selectedEmote)?.text
-              } `}
+        {comments &&
+          comments.map((comment: string) => (
+            <div
+              key={comment}
+              className={` w-max max-w-[75%] rounded-xl ${
+                emotes.find((emote) => emote.em === selectedEmote)?.bg
+              } bg-opacity-30 p-4 even:ml-auto even:text-right`}
             >
-              {comment}
-            </span>
-          </div>
-        ))}
+              <span
+                className={` font-semibold ${
+                  emotes.find((emote) => emote.em === selectedEmote)?.text
+                } `}
+              >
+                {comment}
+              </span>
+            </div>
+          ))}
       </div>
     </>
   );

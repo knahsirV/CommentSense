@@ -10,7 +10,7 @@ const MobileView = ({ emotionData }: { emotionData: EmotionData }) => {
   const [sentimentModalOpen, setSentimentModalOpen] = useState(false);
   const [allCommentsModalOpen, setAllCommentModalOpen] = useState(false);
   const emotions = emotionData.sentiments;
-  const mostCommonEmotion = emotionData.aggregate.most_common_sentiment;
+  const mostCommonEmotion = emotionData.aggregate?.most_common_sentiment;
   return (
     <div className="mt-6 flex flex-wrap justify-center gap-6 lg:hidden">
       <button
@@ -37,7 +37,7 @@ const MobileView = ({ emotionData }: { emotionData: EmotionData }) => {
         </h5>
         <div className="scrollbar-hide overflow-scroll rounded-md">
           <h6 className=" text-justify font-semibold leading-loose">
-            {emotionReasons[mostCommonEmotion]}
+            {mostCommonEmotion && emotionReasons[mostCommonEmotion]}
           </h6>
         </div>
       </Modal>
@@ -45,24 +45,28 @@ const MobileView = ({ emotionData }: { emotionData: EmotionData }) => {
         <h5 className=" mb-4 text-center text-xl font-bold text-zinc-500">
           Sentiment Distribution
         </h5>
-        <DistChart
-          emoteData={[
-            emotions.joy.length,
-            emotions.anger.length,
-            emotions.fear.length,
-            emotions.sadness.length,
-            emotions.surprise.length,
-            emotions.disgust.length,
-            emotions.neutral.length,
-          ]}
-        />
+        {emotions && (
+          <DistChart
+            emoteData={[
+              emotions.joy.length,
+              emotions.anger.length,
+              emotions.fear.length,
+              emotions.sadness.length,
+              emotions.surprise.length,
+              emotions.disgust.length,
+              emotions.neutral.length,
+            ]}
+          />
+        )}
       </Modal>
       <Modal isOpen={allCommentsModalOpen} setIsOpen={setAllCommentModalOpen}>
         <div className="grid h-[75vh] grid-rows-[auto_minmax(0,_1fr)] gap-4">
-          <CommentsView
-            data={emotionData}
-            defaultChoice={emoteLabels[mostCommonEmotion].substring(3)}
-          />
+          {mostCommonEmotion && (
+            <CommentsView
+              data={emotionData}
+              defaultChoice={emoteLabels[mostCommonEmotion].substring(3)}
+            />
+          )}
         </div>
       </Modal>
     </div>
