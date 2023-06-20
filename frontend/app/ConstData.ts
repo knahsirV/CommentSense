@@ -1,24 +1,29 @@
 export interface EmotionData {
-  aggregate: {
-    most_common_sentiment:
-      | "joy"
-      | "anger"
-      | "sadness"
-      | "fear"
-      | "surprise"
-      | "disgust"
-      | "neutral";
-    total_comments: number;
-  };
-  sentiments: {
-    joy: string[];
-    anger: string[];
-    sadness: string[];
-    fear: string[];
-    surprise: string[];
-    disgust: string[];
-    neutral: string[];
-  };
+  error: string | undefined;
+  aggregate:
+    | {
+        most_common_sentiment:
+          | "joy"
+          | "anger"
+          | "sadness"
+          | "fear"
+          | "surprise"
+          | "disgust"
+          | "neutral";
+        total_comments: number;
+      }
+    | undefined;
+  sentiments:
+    | {
+        joy: string[];
+        anger: string[];
+        sadness: string[];
+        fear: string[];
+        surprise: string[];
+        disgust: string[];
+        neutral: string[];
+      }
+    | undefined;
 }
 
 export interface VideoData {

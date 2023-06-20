@@ -16,18 +16,22 @@ const SentimentDashboard = ({ id }: { id: string }) => {
 };
 
 const Content = async ({ id }: { id: string }) => {
-  const emotionData: EmotionData = await getSentiments(id);
-  const mostCommonEmotion = emotionData.aggregate.most_common_sentiment;
-  const total_comments = emotionData.aggregate.total_comments;
+  const emotionData: EmotionData = {
+    error: "error",
+    sentiments: undefined,
+    aggregate: undefined,
+  };
+  const mostCommonEmotion = emotionData.aggregate?.most_common_sentiment;
+  const total_comments = emotionData.aggregate?.total_comments;
   const emotions = emotionData.sentiments;
-  return (
+  return emotionData.aggregate && emotionData.sentiments ? (
     <>
       <div className=" grid-rows-[auto_1fr_auto] rounded-xl bg-zinc-900 p-4 lg:col-start-1 lg:col-end-5 lg:grid lg:p-8">
         <h6 className="font-semibold lg:text-xl">
           This {"video's"} comment section is feeling . . .
         </h6>
         <h1 className="my-auto text-center text-3xl font-bold lg:text-6xl">
-          {emoteLabels[mostCommonEmotion]}
+          {mostCommonEmotion && emoteLabels[mostCommonEmotion]}
         </h1>
         <h6 className="text-right font-semibold lg:text-xl">
           . . . about this video
@@ -38,7 +42,7 @@ const Content = async ({ id }: { id: string }) => {
           {total_comments}
         </h1>
         <h6 className="text-center text-2xl font-semibold">
-          Comment{total_comments > 1 && "s"} Analyzed
+          Comment{total_comments && total_comments > 1 && "s"} Analyzed
         </h6>
       </div>
       <div className=" col-start-1 col-end-4 row-span-1 row-start-2 hidden grid-rows-[auto_minmax(0,_1fr)] rounded-xl bg-zinc-900 p-8 lg:grid">
@@ -47,7 +51,7 @@ const Content = async ({ id }: { id: string }) => {
         </h5>
         <div className="scrollbar-hide overflow-scroll rounded-md">
           <h6 className=" font-semibold leading-loose">
-            {emotionReasons[mostCommonEmotion]}
+            {mostCommonEmotion && emotionReasons[mostCommonEmotion]}
           </h6>
         </div>
       </div>
@@ -56,27 +60,37 @@ const Content = async ({ id }: { id: string }) => {
           Sentiment Distribution
         </h5>
         <div className="scrollbar-hide overflow-scroll rounded-md">
-          <DistChart
-            emoteData={[
-              emotions.joy.length,
-              emotions.anger.length,
-              emotions.fear.length,
-              emotions.sadness.length,
-              emotions.surprise.length,
-              emotions.disgust.length,
-              emotions.neutral.length,
-            ]}
-          />
+          {emotions && (
+            <DistChart
+              emoteData={[
+                emotions.joy.length,
+                emotions.anger.length,
+                emotions.fear.length,
+                emotions.sadness.length,
+                emotions.surprise.length,
+                emotions.disgust.length,
+                emotions.neutral.length,
+              ]}
+            />
+          )}
         </div>
       </div>
       <div className="col-start-8 col-end-13 row-span-2 hidden grid-rows-[auto_minmax(0,_1fr)] gap-8 rounded-xl bg-zinc-900 p-8 lg:grid">
-        <CommentsView
-          data={emotionData}
-          defaultChoice={emoteLabels[mostCommonEmotion].substring(3)}
-        />
+        {mostCommonEmotion && (
+          <CommentsView
+            data={emotionData}
+            defaultChoice={emoteLabels[mostCommonEmotion].substring(3)}
+          />
+        )}
       </div>
       <MobileView emotionData={emotionData} />
     </>
+  ) : (
+    <div className="col-span-12 row-span-2 grid place-content-center">
+      <h1 className=" text-3xl font-semibold italic text-red-500">
+        An error occurred with the machine learning model api. Please try again.
+      </h1>
+    </div>
   );
 };
 
