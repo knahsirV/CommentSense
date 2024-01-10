@@ -16,11 +16,7 @@ const SentimentDashboard = ({ id }: { id: string }) => {
 };
 
 const Content = async ({ id }: { id: string }) => {
-  const emotionData: EmotionData = {
-    error: "error",
-    sentiments: undefined,
-    aggregate: undefined,
-  };
+  const emotionData: EmotionData = await getSentiments(id);
   const mostCommonEmotion = emotionData.aggregate?.most_common_sentiment;
   const total_comments = emotionData.aggregate?.total_comments;
   const emotions = emotionData.sentiments;
@@ -113,7 +109,7 @@ const Skel = () => {
 
 async function getSentiments(id: string) {
   const data: EmotionData = await fetch(
-    `http://flask-env.eba-psh44mba.us-east-2.elasticbeanstalk.com/${id}/sentiments`
+    `https://comment-sense-backend.onrender.com/${id}/sentiments`
   ).then((res: any) => res.json());
   return data;
 }

@@ -63,7 +63,7 @@ const Skel = () => {
 
 async function getVideoDetails(id: string) {
   const data: VideoData = await fetch(
-    `http://flask-env.eba-psh44mba.us-east-2.elasticbeanstalk.com/${id}/details`
+    `https://comment-sense-backend.onrender.com/${id}/details`
   ).then((res: any) => res.json());
   return data;
 }
