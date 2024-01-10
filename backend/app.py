@@ -3,24 +3,24 @@ from flask import Flask, send_from_directory, render_template
 import comment_tools as comment_tools
 import os
 
-application = Flask(__name__)
+app = Flask(__name__)
 
 
-@application.route("/favicon.ico")
+@app.route("/favicon.ico")
 def favicon():
     return send_from_directory(
-        os.path.join(application.root_path, "static"),
+        os.path.join(app.root_path, "static"),
         "favicon.ico",
         mimetype="image/vnd.microsoft.icon",
     )
 
 
-@application.route("/")
+@app.route("/")
 def home():
     return render_template("index.html")
 
 
-@application.route("/<video_id>/details")
+@app.route("/<video_id>/details")
 def details(video_id):
     try:
         video_id = str(video_id)
@@ -30,7 +30,7 @@ def details(video_id):
         return {"error": str(e)}
 
 
-@application.route("/<video_id>/sentiments/")
+@app.route("/<video_id>/sentiments/")
 def sentiments(video_id):
     try:
         video_id = str(video_id)
@@ -50,4 +50,4 @@ def sentiments(video_id):
 
 
 if __name__ == "__main__":
-    application.run(debug=True)
+    app.run(debug=False)

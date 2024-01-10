@@ -1,7 +1,7 @@
+from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import os
-from dotenv import load_dotenv
 import requests
 import pandas as pd
 from supabase import create_client, Client
