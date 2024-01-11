@@ -5,7 +5,7 @@ Youtuber content creators have a variety of analytics available at their fingert
 
 ## Working Demo
 
-https://github.com/knahsirV/CommentSense/assets/64799319/6c7eccf7-f887-4436-b74f-ef436c1a7b47
+https://github.com/knahsirV/CommentSense/assets/64799319/4dfe760d-ff88-4267-ba0b-0267a91ea490
 
 ## Tech Stack
 
